@@ -8,7 +8,7 @@ A single-player Sudoku web app built with React, React Router, and the Context A
 ## Live Links
 
 - **GitHub:** https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/
-- **Deployed (Render):** https://render.com/
+- **Deployed (Render):** [https://render.com](https://iris-zhang-faith-zhang-project2.onrender.com)/
 
 ---
 
