@@ -41,13 +41,15 @@ We spent around three weeks on this assignment, including initial planning like 
 
 ### Bonus Points We Incorporated (all of them)
 
-**Local Storage (3 pts)**
+**Local Storage (3 pts):**
+
 Game state is persisted to `window.localStorage` after every action so a mid-game browser refresh restores the board exactly where the player left off, including the elapsed timer. All localStorage access is isolated to three private helper functions inside [`SudokuContext.jsx`](https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/blob/main/src/sudoku/SudokuContext.jsx#L11-L56): `saveToStorage` serialises the board, givens, mode, lock state, and elapsed milliseconds; `loadFromStorage` reads and validates that data on app startup (called once inside `initState`, the initialiser passed to `useReducer`); and `clearStorage` removes the entry. A `useEffect` in the provider fires after every state change and either saves the new state or clears storage when the game is won. A wrapped dispatch clears storage immediately when the player hits Reset, satisfying the requirement to clear on both win and reset.
 
-**Backtracking Unique-Solution Generator (4 pts)**
+**Backtracking Unique-Solution Generator (4 pts):**
+
 Puzzle generation runs in two phases, both implemented with backtracking in [`sudokuGenerator.js`](https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/blob/main/src/sudoku/sudokuGenerator.js). First, [`fillBoard`](https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/blob/main/src/sudoku/sudokuGenerator.js#L61-L71) builds a complete valid solution: it picks the next empty cell, tries each digit in a randomly shuffled order, places it if it passes the row/column/subgrid validity check, and recurses — backtracking (resetting the cell to null) whenever no candidate leads to a valid completion. Second, [`removeCellsToGivens`](https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/blob/main/src/sudoku/sudokuGenerator.js#L106-L130) removes cells one at a time in a random order. After each tentative removal it calls [`countSolutions`](https://github.khoury.northeastern.edu/iriszhang/iris-zhang-faith-zhang-project2/blob/main/src/sudoku/sudokuGenerator.js#L82-L95) — a second backtracking solver that counts completions up to a limit of 2 and exits early the moment a second solution is found. If `countSolutions` returns exactly 1 the removal is kept; otherwise the cell is restored. This guarantees every generated puzzle has a unique solution.
 
-**Hint System (5 pts)**
+**Hint System (5 pts):**
 
 We added a **Hint** button on each game page ([`GamePage.jsx`](src/views/GamePage.jsx)). When the player clicks it, the app dispatches a `HINT` action into the Sudoku Context ([`SudokuContext.jsx`](src/sudoku/SudokuContext.jsx)).
 
@@ -59,5 +61,6 @@ For every cell that is **not** a given and is currently **empty**, we compute th
 
 The chosen cell is stored as `hintCell: { row, col, value }` in Context. [`SudokuGrid.jsx`](src/sudoku/SudokuGrid.jsx) passes `isHint` into each [`SudokuCell.jsx`](src/sudoku/SudokuCell.jsx), which adds the `hint` CSS class for a yellow highlight ([`.cell.hint`](src/index.css) in [`index.css`](src/index.css)). The hint is cleared on the next cell edit, New Game, or Reset so it never stays stale after the board changes. Hints are disabled when the puzzle is complete (`locked` / `isComplete`), matching normal play.
 
-**Early Submission (2 pts)**
+**Early Submission (2 pts):**
+
 We submitted this project 48 hours before the deadline. 
